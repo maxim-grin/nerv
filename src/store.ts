@@ -1,4 +1,7 @@
-import { createClient, type RedisClientType } from 'redis';
+import { createClient } from 'redis';
+
+const redisClientPrototype = createClient();
+type RedisClient = typeof redisClientPrototype;
 
 export interface Store {
   ping(): Promise<string>;
@@ -7,7 +10,7 @@ export interface Store {
 }
 
 export class RedisStore implements Store {
-  constructor(private readonly client: RedisClientType) {}
+  constructor(private readonly client: RedisClient) {}
 
   async ping(): Promise<string> {
     return this.client.ping();
